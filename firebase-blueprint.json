@@ -1,0 +1,37 @@
+{
+  "collections": [
+    {
+      "name": "menuItems",
+      "description": "Stores the restaurant menu items.",
+      "schema": {
+        "name": "string",
+        "category": "string",
+        "price": "number",
+        "available": "boolean"
+      },
+      "rules": {
+        "read": "true",
+        "create": "request.auth != null",
+        "update": "request.auth != null",
+        "delete": "request.auth != null"
+      }
+    },
+    {
+      "name": "orders",
+      "description": "Stores customer orders.",
+      "schema": {
+        "tableNumber": "number",
+        "items": "list",
+        "totalPrice": "number",
+        "status": "string",
+        "createdAt": "timestamp"
+      },
+      "rules": {
+        "read": "true",
+        "create": "true",
+        "update": "request.auth != null",
+        "delete": "request.auth != null"
+      }
+    }
+  ]
+}
