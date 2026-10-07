@@ -5,6 +5,9 @@ export interface MenuItem {
   price: number;
   available: boolean;
   imageUrl?: string;
+  description?: string;
+  dietary?: 'veg' | 'non-veg';
+  isPopular?: boolean;
 }
 
 export type OrderStatus = 'New' | 'Preparing' | 'Ready' | 'Served' | 'Cancelled';
@@ -14,6 +17,7 @@ export interface OrderItem {
   name: string;
   price: number;
   quantity: number;
+  specialRequest?: string;
 }
 
 export interface Order {

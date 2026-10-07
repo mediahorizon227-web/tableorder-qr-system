@@ -38,58 +38,67 @@ export default function CustomerStatus() {
 
   return (
     <div className="min-h-screen bg-zinc-950 pb-12 text-zinc-100">
-      <div className="bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-900 sticky top-0 z-40">
-        <div className="px-5 py-6 flex items-center gap-4 max-w-md mx-auto">
-          <button onClick={() => navigate(`/order?table=${order.tableNumber}`)} className="p-2 -ml-2 bg-zinc-900 text-zinc-400 hover:text-amber-500 hover:bg-zinc-800 rounded-full transition-colors active:scale-95">
-            <ArrowLeft className="w-5 h-5" />
+      {/* Header */}
+      <div className="bg-zinc-950/90 backdrop-blur-xl border-b border-zinc-900/80 sticky top-0 z-40">
+        <div className="px-5 py-4 flex items-center gap-3 max-w-md mx-auto">
+          <button 
+            onClick={() => navigate(`/order?table=${order.tableNumber}`)} 
+            className="w-8 h-8 flex items-center justify-center bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-zinc-100 rounded-full transition-colors active:scale-95"
+            aria-label="Back to Menu"
+          >
+            <ArrowLeft className="w-4 h-4" />
           </button>
           <div>
-            <h1 className="text-xl font-serif tracking-wide text-zinc-100">Order Status</h1>
-            <p className="text-[11px] text-amber-500 font-bold uppercase tracking-widest mt-0.5">Table {order.tableNumber}</p>
+            <h1 className="text-xl font-serif font-medium tracking-wide text-zinc-100">Order Status</h1>
+            <div className="flex items-center gap-2 mt-0.5">
+              <span className="text-[11px] text-zinc-400 font-medium uppercase tracking-wider">Table {order.tableNumber}</span>
+              <span className="w-1 h-1 bg-zinc-700 rounded-full" />
+              <span className="text-[11px] text-zinc-500">Live Kitchen Tracker</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-md mx-auto px-5 mt-12">
+      <div className="max-w-md mx-auto px-5 mt-8">
         
         {/* Status Tracker */}
-        <div className="bg-zinc-900/60 p-8 rounded-3xl shadow-2xl shadow-black/40 border border-zinc-800/60 mb-8">
+        <div className="bg-zinc-900/40 p-6 rounded-2xl shadow-sm shadow-black/40 border border-zinc-800/80 mb-6">
           <div className="relative">
             {/* Track Line */}
-            <div className="absolute left-6 top-6 bottom-6 w-[2px] bg-zinc-800/80" />
+            <div className="absolute left-[22px] top-6 bottom-6 w-[2px] bg-zinc-800/80" />
             
             {/* Active Track Line */}
             <motion.div 
-              className="absolute left-6 top-6 w-[2px] bg-amber-500"
+              className="absolute left-[22px] top-6 w-[2px] bg-amber-500"
               initial={{ height: 0 }}
               animate={{ height: `${(currentStepIndex / (STATUS_STEPS.length - 1)) * 100}%` }}
               transition={{ duration: 0.6, ease: "easeInOut" }}
             />
 
-            <div className="space-y-10 relative">
+            <div className="space-y-8 relative">
               <StatusStep 
-                icon={<Clock className="w-5 h-5" />}
+                icon={<Clock className="w-4 h-4" />}
                 title="Order Placed"
                 subtitle="We've received your order"
                 isActive={currentStepIndex >= 0}
                 isCurrent={currentStepIndex === 0}
               />
               <StatusStep 
-                icon={<ChefHat className="w-5 h-5" />}
+                icon={<ChefHat className="w-4 h-4" />}
                 title="Preparing"
                 subtitle="Chefs are working their magic"
                 isActive={currentStepIndex >= 1}
                 isCurrent={currentStepIndex === 1}
               />
               <StatusStep 
-                icon={<CheckCircle2 className="w-5 h-5" />}
+                icon={<CheckCircle2 className="w-4 h-4" />}
                 title="Ready"
                 subtitle="Your food is ready to be served"
                 isActive={currentStepIndex >= 2}
                 isCurrent={currentStepIndex === 2}
               />
               <StatusStep 
-                icon={<Utensils className="w-5 h-5" />}
+                icon={<Utensils className="w-4 h-4" />}
                 title="Served"
                 subtitle="Enjoy your meal!"
                 isActive={currentStepIndex >= 3}
@@ -100,27 +109,36 @@ export default function CustomerStatus() {
         </div>
 
         {/* Order Details */}
-        <div className="bg-zinc-900/60 p-8 rounded-3xl shadow-xl shadow-black/20 border border-zinc-800/60">
-          <div className="flex items-center gap-3 mb-6 text-amber-500">
-            <Receipt className="w-5 h-5" />
-            <h2 className="font-serif text-xl tracking-wide text-zinc-100">Receipt</h2>
+        <div className="bg-zinc-900/40 p-6 rounded-2xl shadow-sm shadow-black/40 border border-zinc-800/80">
+          <div className="flex items-center gap-2.5 mb-5 text-zinc-400">
+            <Receipt className="w-4 h-4 text-amber-400/90" />
+            <h2 className="font-serif text-lg font-medium tracking-wide text-zinc-100">Receipt Summary</h2>
           </div>
           
-          <ul className="space-y-4 mb-8">
+          <ul className="space-y-3 mb-6">
             {order.items.map((item, idx) => (
-              <li key={idx} className="flex justify-between text-sm">
-                <div className="flex gap-4 items-center">
-                  <span className="font-bold text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded text-xs">{item.quantity}x</span>
-                  <span className="text-zinc-200 tracking-wide">{item.name}</span>
+              <li key={idx} className="flex flex-col text-sm border-b border-zinc-900/60 pb-3 last:border-0 last:pb-0">
+                <div className="flex justify-between items-start">
+                  <div className="flex gap-2.5 items-center">
+                    <span className="font-semibold text-amber-400/90 text-xs">{item.quantity}x</span>
+                    <span className="text-zinc-200 tracking-wide">{item.name}</span>
+                  </div>
+                  <span className="font-medium text-zinc-300">₹{item.price * item.quantity}</span>
                 </div>
-                <span className="font-semibold text-zinc-300">₹{item.price * item.quantity}</span>
+                {item.specialRequest && (
+                  <div className="mt-1 ml-6">
+                    <span className="inline-block px-2 py-0.5 bg-zinc-950/70 border border-zinc-800/80 text-zinc-400 text-xs rounded-md">
+                      Note: {item.specialRequest}
+                    </span>
+                  </div>
+                )}
               </li>
             ))}
           </ul>
           
-          <div className="border-t border-zinc-800/80 pt-5 flex justify-between items-center text-lg font-bold">
-            <span className="tracking-wide">Total</span>
-            <span className="text-amber-500 text-2xl font-serif">₹{order.totalPrice}</span>
+          <div className="border-t border-zinc-800/80 pt-4 flex justify-between items-center">
+            <span className="text-xs text-zinc-400 uppercase tracking-wider font-medium">Total Amount</span>
+            <span className="text-amber-400 text-xl font-serif font-medium">₹{order.totalPrice}</span>
           </div>
         </div>
 
@@ -131,17 +149,24 @@ export default function CustomerStatus() {
 
 function StatusStep({ icon, title, subtitle, isActive, isCurrent }: { icon: React.ReactNode, title: string, subtitle: string, isActive: boolean, isCurrent: boolean }) {
   return (
-    <div className={cn("flex gap-5 items-start transition-opacity duration-500", isActive ? "opacity-100" : "opacity-30")}>
+    <div className={cn("flex gap-4 items-start transition-opacity duration-300", isActive ? "opacity-100" : "opacity-35")}>
       <div className={cn(
-        "relative z-10 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-500",
-        isActive ? "bg-amber-500 text-zinc-950 shadow-lg shadow-amber-900/40" : "bg-zinc-950 border-2 border-zinc-800 text-zinc-600",
-        isCurrent && "ring-4 ring-amber-500/20 scale-110"
+        "relative z-10 w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300 shrink-0",
+        isActive ? "bg-amber-500 text-zinc-950 shadow-md shadow-amber-950/40" : "bg-zinc-900 border border-zinc-800 text-zinc-600",
+        isCurrent && "ring-4 ring-amber-500/20 scale-105"
       )}>
         {icon}
       </div>
-      <div className="pt-1.5">
-        <h3 className={cn("font-serif text-lg tracking-wide", isActive ? "text-zinc-100" : "text-zinc-500")}>{title}</h3>
-        <p className="text-sm text-zinc-400 mt-1">{subtitle}</p>
+      <div className="pt-1">
+        <h3 className={cn("font-serif text-base tracking-wide flex items-center gap-2", isActive ? "text-zinc-100" : "text-zinc-500")}>
+          <span>{title}</span>
+          {isCurrent && (title === 'Order Placed' || title === 'Preparing') && (
+            <span className="text-[10px] font-sans text-zinc-400 bg-zinc-800/80 border border-zinc-700/60 px-2 py-0.5 rounded-full font-medium tracking-wide">
+              ~15 mins
+            </span>
+          )}
+        </h3>
+        <p className="text-xs text-zinc-400 mt-0.5 leading-relaxed">{subtitle}</p>
       </div>
     </div>
   );
